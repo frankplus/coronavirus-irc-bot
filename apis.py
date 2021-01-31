@@ -11,18 +11,18 @@ import miniflux
 import urllib
 import emoji
 
-class Cleverbot:
+class Chatbot:
     def __init__(self):
-        self.cleverbot_state = None
+        self.context_id = None
 
     def elaborate_query(self, query):
-        q = {'key': CLEVERBOT_KEY, 'input': query}
-        if self.cleverbot_state:
-            q['cs'] = self.cleverbot_state
-        url = 'https://www.cleverbot.com/getreply?' + urlencode(q)
+        q = {'key': CHATBOT_KEY, 'input': query}
+        if self.context_id:
+            q['context'] = self.context_id
+        url = 'http://localhost:2834/getreply?' + urlencode(q)
         data = json_request(url)
         if data:
-            self.cleverbot_state = data["cs"]
+            self.context_id = data["context"]
             return data["output"]
 
 
